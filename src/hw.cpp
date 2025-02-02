@@ -4,7 +4,6 @@ void init_hw(void){
     pinMode(ONBOARD_LED,OUTPUT);
     pinMode(LIFE_LED,OUTPUT);
     pinMode(ENTER_BUTTON, INPUT_PULLUP);  
-    digitalWrite(ONBOARD_LED,HIGH);
 }
 
 void life_task(void * parameter) {
