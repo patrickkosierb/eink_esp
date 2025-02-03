@@ -16,6 +16,13 @@ void pomo::stop(){
 
 void pomo::reset(){}
 
-bool pomo::get_state(){
+bool pomo::is_on(){
     return state;
+}
+
+int pomo::get_num_epoch(){
+    return num_epoch;
+}
+int pomo::get_split(){
+    return split;
 }

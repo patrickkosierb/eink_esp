@@ -1,10 +1,21 @@
 #include "hw.h"
 #include "pomo.h"
+#include <iostream>
+
+// states screen
+volatile bool main_menu = true;
+volatile bool pomo_menu = false;
+volatile bool pomo_running = false;
+
+// pomo param
+int num_epoch = 1;
+int split = 30;
+
 
 // enter button 
 volatile bool enter_pressed = false;
 unsigned long lastPressTime = 0;
-const int debounceDelay = 200;
+const int debounceDelay = 500;
 
 void IRAM_ATTR enterISR() {
     unsigned long currentTime = millis();
@@ -12,16 +23,21 @@ void IRAM_ATTR enterISR() {
         enter_pressed = true;
         lastPressTime = currentTime;
     }
-    // enter_pressed = true;
 }
 
 TaskHandle_t xPomo; 
-void pomo_task(void * parameter) {
-  // pomo::pomo(get info);  
-  /*
-    
-   */
+void pomo_task(void* param) {
+
+  while(pomo_running){
+    digitalWrite(ONBOARD_LED,HIGH);
+    delay(500);
+    digitalWrite(ONBOARD_LED,LOW);
+    delay(500);
+  }
+
+  vTaskDelete(NULL);
 }
+
 
 void setup() {
   init_hw();
@@ -33,15 +49,22 @@ void setup() {
 }
 
 void loop() {
-  if(enter_pressed){
-    Serial.println("Enter pressed");
-    digitalWrite(ONBOARD_LED,HIGH);
+  if(enter_pressed && main_menu){
     enter_pressed = false;
-    /*
-      refresh screen 
-      if we're in the menu screen (use gui.state()) then do gui.pomo()
-      if we're on the pomo screen then start the timer/pomo task 
-     */
+    Serial.println("Welcome :)");
+    main_menu=false;
+    pomo_menu=true;
+  }else if(enter_pressed && pomo_menu && !pomo_running){
+    enter_pressed = false;
+    Serial.println("Starting Pomodoro timer");
+    xTaskCreatePinnedToCore(pomo_task,"pomo",10000, NULL, 1,&xPomo,0);
+    pomo_running = true;
+  }else if(enter_pressed && pomo_menu && pomo_running){
+    enter_pressed = false;
+    pomo_running = false;
+    // reset screen
   }
+
+  // buttons for session length and split
 
 }

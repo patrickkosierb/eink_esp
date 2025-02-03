@@ -13,7 +13,9 @@ class pomo{
         void start();
         void stop();
         void reset();
-        bool get_state();
+        bool is_on();
+        int get_num_epoch();
+        int get_split();
 };
 
 #endif
