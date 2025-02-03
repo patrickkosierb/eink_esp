@@ -49,17 +49,20 @@ void setup() {
 }
 
 void loop() {
-  if(enter_pressed && main_menu){
+  
+  while(!enter_pressed);
+
+  if(main_menu){
     enter_pressed = false;
     Serial.println("Welcome :)");
     main_menu=false;
     pomo_menu=true;
-  }else if(enter_pressed && pomo_menu && !pomo_running){
+  }else if(pomo_menu && !pomo_running){
     enter_pressed = false;
     Serial.println("Starting Pomodoro timer");
     xTaskCreatePinnedToCore(pomo_task,"pomo",10000, NULL, 1,&xPomo,0);
     pomo_running = true;
-  }else if(enter_pressed && pomo_menu && pomo_running){
+  }else if(pomo_menu && pomo_running){
     enter_pressed = false;
     pomo_running = false;
     // reset screen
