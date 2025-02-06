@@ -3,6 +3,7 @@
         "memory": "cpp",
         "random": "cpp",
         "optional": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "iostream": "cpp"
     }
 }

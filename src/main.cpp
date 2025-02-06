@@ -1,33 +1,24 @@
 #include "hw.h"
-#include "pomo.h"
-#include <iostream>
+// #include <iostream>
+// #include "pomo.h"
 
-// states screen
-volatile bool main_menu = true;
-volatile bool pomo_menu = false;
-volatile bool pomo_running = false;
+// flags
+extern volatile bool main_menu;
+extern volatile bool pomo_menu;
+extern volatile bool pomo_running;
+extern volatile bool enter_pressed;
+extern volatile bool length_pressed;
+extern volatile bool split_pressed;
 
-// pomo param
+// pomodoro param
 int num_epoch = 1;
 int split = 30;
 
-
-// enter button 
-volatile bool enter_pressed = false;
-unsigned long lastPressTime = 0;
-const int debounceDelay = 500;
-
-void IRAM_ATTR enterISR() {
-    unsigned long currentTime = millis();
-    if (currentTime - lastPressTime > debounceDelay) {
-        enter_pressed = true;
-        lastPressTime = currentTime;
-    }
-}
-
+// pomodoro task
 TaskHandle_t xPomo; 
 void pomo_task(void* param) {
 
+  // pomodoro timer loop
   while(pomo_running){
     digitalWrite(ONBOARD_LED,HIGH);
     delay(500);
@@ -37,7 +28,6 @@ void pomo_task(void* param) {
 
   vTaskDelete(NULL);
 }
-
 
 void setup() {
   init_hw();
@@ -50,24 +40,27 @@ void setup() {
 
 void loop() {
   
-  while(!enter_pressed);
+  while(!pressed());
 
-  if(main_menu){
-    enter_pressed = false;
-    Serial.println("Welcome :)");
-    main_menu=false;
-    pomo_menu=true;
-  }else if(pomo_menu && !pomo_running){
-    enter_pressed = false;
-    Serial.println("Starting Pomodoro timer");
-    xTaskCreatePinnedToCore(pomo_task,"pomo",10000, NULL, 1,&xPomo,0);
-    pomo_running = true;
-  }else if(pomo_menu && pomo_running){
-    enter_pressed = false;
-    pomo_running = false;
-    // reset screen
-  }
-
-  // buttons for session length and split
+  // hide this code in "hw.h" make it return something for starting tasks
+  if(enter_pressed){
+    if(main_menu){
+      enter_pressed = false;
+      Serial.println("Welcome :)");
+      main_menu=false;
+      pomo_menu=true;
+    }else if(pomo_menu && !pomo_running){
+      enter_pressed = false;
+      Serial.println("Starting Pomodoro timer");
+      xTaskCreatePinnedToCore(pomo_task,"pomo",10000, NULL, 1,&xPomo,0);
+      pomo_running = true;
+    }else if(pomo_menu && pomo_running){
+      enter_pressed = false;
+      pomo_running = false;
+      // reset screen
+    }
+  }else if(length_pressed){}
+  else if(split_pressed){}
+  else{}
 
 }
