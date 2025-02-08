@@ -6,5 +6,5 @@
 
 void init_gui();
 void helloWorld();
-
+void goodbye();
 #endif

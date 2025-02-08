@@ -22,7 +22,8 @@ void helloWorld()
   // center the bounding box by transposition of the origin:
   uint16_t x = ((display.width() - tbw) / 2) - tbx;
   uint16_t y = ((display.height() - tbh) / 2) - tby;
-  display.setFullWindow();
+  // display.setFullWindow();
+  display.setPartialWindow(0, 0, display.width(), display.height());
   display.firstPage();
   do
   {
@@ -31,5 +32,35 @@ void helloWorld()
     display.print(HelloWorld);
   }
   while (display.nextPage());
-  Serial.println("End of helloWorld");
+  // delay(2000);
+  // const char HelloWorld2[] = "Goodbye!";
+  // display.setPartialWindow(x,y-tbh/2,tbw+1,tbh);
+  // do
+  // { 
+  //   display.setCursor(x, y);
+  //   display.print(HelloWorld2);
+  // }
+  // while (display.nextPage());
+  // Serial.println("End of helloWorld");
+}
+
+void goodbye(){
+  const char HelloWorld[] = "Hello World!";
+  display.setRotation(1);
+  display.setFont(&FreeMonoBold9pt7b);
+  display.setTextColor(GxEPD_BLACK);
+  int16_t tbx, tby; uint16_t tbw, tbh;
+  display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
+  // center the bounding box by transposition of the origin:
+  uint16_t x = ((display.width() - tbw) / 2) - tbx;
+  uint16_t y = ((display.height() - tbh) / 2) - tby;
+  const char Goodbye[] = "Goodbye!";
+  display.setPartialWindow(x,y-tbh/2,tbw+1,tbh);
+  do
+  { 
+    display.setCursor(x, y);
+    display.print(Goodbye);
+  }
+  while (display.nextPage());
+  Serial.println("End of Goodbye");
 }

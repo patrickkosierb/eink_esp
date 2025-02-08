@@ -48,6 +48,7 @@ void state_machine(){
       }else if(pomo_menu && pomo_running){
         enter_pressed = false;
         pomo_running = false;
+        goodbye(); //test screen change
         // reset screen
       }
     }else if(length_pressed){}
