@@ -4,7 +4,9 @@
 // Library: https://github.com/ZinggJM/GxEPD2
 
 #include <GxEPD2_BW.h>
-
+#include <GxEPD2_3C.h>
+#include <GxEPD2_4C.h>
+#include <GxEPD2_7C.h>
 #define GxEPD2_DISPLAY_CLASS GxEPD2_BW
 
 // #define GxEPD2_DRIVER_CLASS GxEPD2_420     // GDEW042T2   400x300, UC8176 (IL0398), (WFT042CZ15)
@@ -31,11 +33,6 @@
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))
 #endif
 
-// adapt the constructor parameters to your wiring
-GxEPD2_DISPLAY_CLASS<GxEPD2_DRIVER_CLASS, MAX_HEIGHT(GxEPD2_DRIVER_CLASS)> display(GxEPD2_DRIVER_CLASS(/*CS=5*/ EPD_CS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4)); // my suggested wiring and proto board
-
-#undef MAX_DISPLAY_BUFFER_SIZE
-#undef MAX_HEIGHT
 #endif
 
 #endif

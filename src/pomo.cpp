@@ -1,28 +1,58 @@
 #include "pomo.h"
 
-pomo::pomo(int ne, int s) {
-    num_epoch = ne;
-    split = s;     
-}
-pomo::~pomo(){}
+extern volatile bool enter_pressed;
+extern volatile bool length_pressed;
+extern volatile bool split_pressed;
 
-void pomo::start(){
-    state = true;
+/* states */
+bool main_menu = true;
+bool pomo_menu = false;
+bool pomo_running = false;
+
+// pomodoro param
+int num_epoch = 1;
+int split = 30;
+
+void pomo_task(void* param) {
+  while(pomo_running){
+    digitalWrite(ONBOARD_LED,HIGH);
+    delay(500);
+    digitalWrite(ONBOARD_LED,LOW);
+    delay(500);
+  }
+  vTaskDelete(NULL);
 }
 
-void pomo::stop(){
-    state = false;
+void start_pomo(){
+    TaskHandle_t xPomo; 
+    Serial.println("Starting Pomodoro timer");
+    xTaskCreatePinnedToCore(pomo_task,"pomo",10000, NULL, 1 ,&xPomo, 0);
 }
 
-void pomo::reset(){}
+void state_machine(){
 
-bool pomo::is_on(){
-    return state;
-}
+  for( ;; ){
+    
+    while(!pressed());
 
-int pomo::get_num_epoch(){
-    return num_epoch;
-}
-int pomo::get_split(){
-    return split;
+    if(enter_pressed){
+      if(main_menu){
+        enter_pressed = false;
+        Serial.println("Welcome :)");
+        main_menu=false;
+        pomo_menu=true;
+      }else if(pomo_menu && !pomo_running){
+        enter_pressed = false;
+        start_pomo();
+        pomo_running = true;
+      }else if(pomo_menu && pomo_running){
+        enter_pressed = false;
+        pomo_running = false;
+        // reset screen
+      }
+    }else if(length_pressed){}
+    else if(split_pressed){}
+    else{}
+    
+  }
 }
