@@ -1,5 +1,5 @@
-#ifndef EINK_H
-#define EINK_H
+#ifndef EDP_H
+#define EDP_H
 
 // Library: https://github.com/ZinggJM/GxEPD2
 
