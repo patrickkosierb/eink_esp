@@ -1,9 +1,6 @@
 #include "hw.h"
 
-/* button flags */
-volatile bool enter_pressed = false;
-volatile bool length_pressed = false;
-volatile bool split_pressed = false;
+volatile int button_state = BUTTON_DEFUALT;
 
 unsigned long lastPressTime = 0;
 const int debounceDelay = 500;
@@ -14,15 +11,33 @@ void init_hw(void){
     pinMode(ONBOARD_LED,OUTPUT);
     pinMode(LIFE_LED,OUTPUT);
     pinMode(ENTER_BUTTON, INPUT_PULLUP);  
-    attachInterrupt(digitalPinToInterrupt(ENTER_BUTTON), enterISR, FALLING);
+    attachInterrupt(digitalPinToInterrupt(ENTER_BUTTON), enterHandleISR, FALLING);
+    pinMode(LENGTH_BUTTON, INPUT_PULLUP);  
+    attachInterrupt(digitalPinToInterrupt(LENGTH_BUTTON), lengthHandleISR, FALLING);
+    pinMode(SPLIT_BUTTON, INPUT_PULLUP);  
+    attachInterrupt(digitalPinToInterrupt(SPLIT_BUTTON), splitHandleISR, FALLING);
     // life led
     start_life();
 }
 
-void IRAM_ATTR enterISR() {
+void IRAM_ATTR enterHandleISR() {
     unsigned long currentTime = millis();
     if (currentTime - lastPressTime > debounceDelay) {
-        enter_pressed = true;
+        button_state = ENTER_PRESSED;
+        lastPressTime = currentTime;
+    }
+}
+void IRAM_ATTR lengthHandleISR() {
+    unsigned long currentTime = millis();
+    if (currentTime - lastPressTime > debounceDelay) {
+        button_state = LENGTH_PRESSED;
+        lastPressTime = currentTime;
+    }
+}
+void IRAM_ATTR splitHandleISR() {
+    unsigned long currentTime = millis();
+    if (currentTime - lastPressTime > debounceDelay) {
+        button_state=SPLIT_PRESSED;
         lastPressTime = currentTime;
     }
 }
@@ -31,7 +46,7 @@ void life_task(void * parameter) {
     bool state_led = true;
     for( ;; ){
         digitalWrite(LIFE_LED,state_led);
-        delay(1000); //make this vTaskDelay()
+        delay(1000); // TODO: make this vTaskDelay()
         state_led = !state_led;
     }
     vTaskDelete(NULL);
@@ -42,5 +57,5 @@ void start_life(){
 };
 
 bool pressed(){
-    return enter_pressed || length_pressed || split_pressed;
+    return button_state==ENTER_PRESSED || button_state==LENGTH_PRESSED || button_state==SPLIT_PRESSED;
 }

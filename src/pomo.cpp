@@ -1,12 +1,9 @@
 #include "pomo.h"
 
-extern volatile bool enter_pressed;
-extern volatile bool length_pressed;
-extern volatile bool split_pressed;
+extern volatile int button_state;
 
 /* states */
-bool main_menu = true;
-bool pomo_menu = false;
+bool screen_state = STATE_MENU;
 bool pomo_running = false;
 
 // pomodoro param
@@ -20,6 +17,7 @@ void pomo_task(void* param) {
     digitalWrite(ONBOARD_LED,LOW);
     delay(500);
   }
+  Serial.println("Stopping Pomodoro timer");
   vTaskDelete(NULL);
 }
 
@@ -35,25 +33,31 @@ void state_machine(){
     
     while(!pressed());
 
-    if(enter_pressed){
-      if(main_menu){
-        enter_pressed = false;
-        Serial.println("Welcome :)");
-        main_menu=false;
-        pomo_menu=true;
-      }else if(pomo_menu && !pomo_running){
-        enter_pressed = false;
-        start_pomo();
-        pomo_running = true;
-      }else if(pomo_menu && pomo_running){
-        enter_pressed = false;
-        pomo_running = false;
+    switch(button_state){
+      case 0:
+        button_state=BUTTON_DEFUALT;
+        if(screen_state==STATE_MENU){
+          Serial.println("Welcome :)");
+          screen_state=STATE_POMO;
+        }else if(screen_state==STATE_POMO && !pomo_running){
+          start_pomo();
+          pomo_running = true;
+        }else if(screen_state==STATE_POMO && pomo_running){
+          pomo_running = false;
+        }
+        break;
+      case 1:
+        button_state=BUTTON_DEFUALT;
         goodbye(); //test screen change
-        // reset screen
-      }
-    }else if(length_pressed){}
-    else if(split_pressed){}
-    else{}
-    
-  }
+        break;
+      case 2:
+        button_state=BUTTON_DEFUALT;
+        helloWorld(); //test screen change
+        break;
+      default:
+        button_state=BUTTON_DEFUALT;
+        break;
+    }
+
+  } 
 }
