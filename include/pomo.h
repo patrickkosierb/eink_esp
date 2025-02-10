@@ -8,7 +8,9 @@
 #define STATE_MENU 0
 #define STATE_POMO 1   
 
+/* pomodoro timer task note: this task is set to reset by clicking the start button while running */
 void pomo_task(void* param);
 void start_pomo();
+/* state machine for device */
 void state_machine();
 #endif
