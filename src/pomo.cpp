@@ -50,7 +50,7 @@ void state_machine(){
     while(!pressed());
 
     switch(button_state){
-      case 0:
+      case ENTER_PRESSED:
         button_state=BUTTON_DEFUALT;
         if(screen_state==STATE_MENU){
           Serial.println("Welcome :)");
@@ -62,11 +62,11 @@ void state_machine(){
           pomo_running = false;
         }
         break;
-      case 1: // TODO: have options for STATE_MENU and STATE_POMO, maybe have a setting for show time vs not 
+      case LENGTH_PRESSED: // TODO: have options for STATE_MENU and STATE_POMO, maybe have a setting for show time vs not 
         button_state=BUTTON_DEFUALT;
         goodbye(); //test screen change
         break;
-      case 2:
+      case SPLIT_PRESSED:
         button_state=BUTTON_DEFUALT;
         gui_main_menu(); //back to main menu
         break;
