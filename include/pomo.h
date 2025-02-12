@@ -6,7 +6,7 @@
 #include "esp_log.h"
 
 #define STATE_MENU 0
-#define STATE_POMO 1   
+#define STATE_POMO 1 
 
 /* pomodoro timer task note: this task is set to reset by clicking the start button while running */
 void pomo_task(void* param);
