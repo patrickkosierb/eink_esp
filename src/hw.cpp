@@ -17,7 +17,7 @@ void init_hw(void){
     pinMode(SPLIT_BUTTON, INPUT_PULLUP);  
     attachInterrupt(digitalPinToInterrupt(SPLIT_BUTTON), splitHandleISR, FALLING);
     // life led
-    start_life();
+    // start_life();
 }
 
 void IRAM_ATTR enterHandleISR() {

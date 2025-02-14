@@ -11,19 +11,15 @@ int split = 30;
 int count = 0;
 
 void pomo_task(void* param) {
+  
+  int break_count;
+  epoch--;
+
   // run timer
   while(pomo_running && count>0){ 
 
     if(count%60==0){
       gui_time(count);
-    }
-
-    if((count/60)%split==0){
-      epoch--;
-      Serial.print("Epoch remaining: ");
-      Serial.println(epoch);
-
-      // TODO: add a statement for split to make it an actual pomodoro timer (start another timer)
     }
 
     digitalWrite(ONBOARD_LED,HIGH);
@@ -32,6 +28,26 @@ void pomo_task(void* param) {
     delay(500);
 
     count--;
+
+    if((count/60)%split==0 && count!=0){
+      epoch--;
+      Serial.print("Break time! Epoch remaining: ");
+      Serial.println(epoch);
+
+      digitalWrite(LIFE_LED,HIGH);
+      break_count = BREAK_SHORT;
+      // start break
+      while(pomo_running && break_count>0){
+        if(break_count%60==0){
+          gui_time(break_count);
+        }
+        delay(1000);
+        break_count--;
+      }
+      digitalWrite(LIFE_LED,LOW);
+      // count = count-BREAK_SHORT;
+    }
+
   }
   // reset
   pomo_running = false;
