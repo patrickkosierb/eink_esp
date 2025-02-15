@@ -8,7 +8,7 @@
 #define STATE_MENU 0
 #define STATE_POMO 1 
 
-#define BREAK_TEST 2*60
+#define BREAK_TEST 1*60
 #define BREAK_SHORT 5*60
 #define BREAK_LONG  10*60
 /* pomodoro timer task note: this task is set to reset by clicking the start button while running */
