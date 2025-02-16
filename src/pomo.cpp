@@ -7,35 +7,62 @@ bool pomo_running = false;
 
 /* pomodoro param */
 int epoch = 0;
-int split = 30;
+int split = 6;
 int count = 0;
 
 void pomo_task(void* param) {
+  
+  int break_count;
+  epoch--; // TODO: bug if pause up pause without changing time 
+
   // run timer
   while(pomo_running && count>0){ 
-
+    
+    // update screen every min
     if(count%60==0){
       gui_time(count);
     }
 
-    if((count/60)%split==0){
-      epoch--;
-      Serial.print("Epoch remaining: ");
-      Serial.println(epoch);
-
-      // TODO: add a statement for split to make it an actual pomodoro timer (start another timer)
-    }
-
+    // flash led
     digitalWrite(ONBOARD_LED,HIGH);
     delay(500);
     digitalWrite(ONBOARD_LED,LOW);
     delay(500);
 
     count--;
+    
+    // break block 
+    if(count%(split*60)==0 && count!=0){
+      buzz();
+
+      epoch--;
+      Serial.print("Break time! Epoch remaining: ");
+      Serial.println(epoch);
+      break_count = BREAK_TEST;
+
+      digitalWrite(LIFE_LED,HIGH);
+
+      // start break
+      while(pomo_running && break_count>0){
+        if(break_count%60==0){
+          gui_time(break_count);
+        }
+        delay(1000);
+        break_count--;
+      }
+      Serial.println("Break end!");
+      digitalWrite(LIFE_LED,LOW);
+      buzz();
+    }
+
   }
-  // reset
-  pomo_running = false;
+  // reset parameters
   Serial.println("Stopping Pomodoro timer");
+  pomo_running = false;
+  epoch = 0;
+  gui_time(count);
+  // buzz();
+
   vTaskDelete(NULL);
 }
 

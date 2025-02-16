@@ -35,7 +35,7 @@ void gui_main_menu()
 }
 
 void gui_time(int seconds){ //TODO: This function can be very optimized 
-
+  
   int minutes = (seconds/60) % 60;
   int hours = seconds/3600;
   /*  

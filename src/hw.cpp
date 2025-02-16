@@ -10,6 +10,8 @@ void init_hw(void){
     // gpio
     pinMode(ONBOARD_LED,OUTPUT);
     pinMode(LIFE_LED,OUTPUT);
+    pinMode(BUZZER,OUTPUT);
+    // buttons
     pinMode(ENTER_BUTTON, INPUT_PULLUP);  
     attachInterrupt(digitalPinToInterrupt(ENTER_BUTTON), enterHandleISR, FALLING);
     pinMode(LENGTH_BUTTON, INPUT_PULLUP);  
@@ -17,7 +19,7 @@ void init_hw(void){
     pinMode(SPLIT_BUTTON, INPUT_PULLUP);  
     attachInterrupt(digitalPinToInterrupt(SPLIT_BUTTON), splitHandleISR, FALLING);
     // life led
-    start_life();
+    // start_life();
 }
 
 void IRAM_ATTR enterHandleISR() {
@@ -54,6 +56,18 @@ void life_task(void * parameter) {
 void start_life(){
     TaskHandle_t xlife;
     xTaskCreatePinnedToCore(life_task,"life",10000, NULL, 1,&xlife,0);
+};
+
+void buzz_task(void * parameter) {
+    digitalWrite(BUZZER,HIGH);
+    delay(500);
+    digitalWrite(BUZZER,LOW);
+    vTaskDelete(NULL);
+}
+
+void buzz(){
+    TaskHandle_t xbuzz;
+    xTaskCreatePinnedToCore(buzz_task,"buzz",10000, NULL, 1,&xbuzz,0);
 };
 
 bool pressed(){
