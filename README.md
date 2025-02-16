@@ -10,12 +10,21 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 - Optional background image instead of time display
 - Track work sessions with desktop app that can be viewed by friends
 
-
 # Technical Specifications  
 
 ## Software
 
+### Required Software for Development
+- Platform IO
+
 ### Dependencies for build
+- zinggjm/GxEPD2@^1.6.2
+- Adafruit NeoMatrix
+- Adafruit NeoPixel
+- Adafruit GFX Library
+- SPI
+- Adafruit BusIO
+- Wire
 
 ## Hardware 
 ### Parts List  
