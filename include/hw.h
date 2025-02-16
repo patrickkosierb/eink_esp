@@ -5,7 +5,8 @@
 
 #define ONBOARD_LED     GPIO_NUM_2
 #define LIFE_LED        GPIO_NUM_22
-#define ENTER_BUTTON    GPIO_NUM_15
+#define GO_LED          GPIO_NUM_21
+#define ENTER_BUTTON    GPIO_NUM_14
 #define LENGTH_BUTTON   GPIO_NUM_13
 #define SPLIT_BUTTON    GPIO_NUM_12
 #define BUZZER          GPIO_NUM_32
