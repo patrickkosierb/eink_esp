@@ -11,4 +11,4 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 
 #### Circuit Diagram  (proto-rev1)
 
-![Circuit Diagram](https://github.com/patrickkosierb/eink_esp/blob/pomo_timer/doc/eink-pomo_circuit-prototype.png)
+![Circuit Diagram](https://github.com/patrickkosierb/eink_esp/blob/main/doc/eink-pomo_circuit-prototype.png)
