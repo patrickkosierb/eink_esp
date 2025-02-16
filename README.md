@@ -21,6 +21,7 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 - x1 Buzzer
 - x1 4.2in Waveshare E-ink display module
 - x2 220 Ohm resistor
+- x1 Male-Header Pins 1x8
 - Wires
 - Blank THT PCB
 
