@@ -14,6 +14,15 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 ### Technical Specifications  
 
 #### Parts List  
+- x1 ESP32 develempent module
+- x3 Push button
+- x1 Red LED
+- x1 Green LED
+- x1 Buzzer
+- x1 4.2in Waveshare E-ink display module
+- x2 220 Ohm resistor
+- Wires
+- Blank THT PCB
 
 #### Circuit Diagram  (proto-rev1)
 
