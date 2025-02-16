@@ -1,4 +1,4 @@
-# E-Ink Pomo
+# E-ink Pomo
 This project is an effort to learn more about niche e-ink technology. 
 
 ### Purpose
