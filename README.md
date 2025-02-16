@@ -10,14 +10,14 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 - Optional background image instead of time display
 - Track work sessions with desktop app that can be viewed by friends
 
-# Technical Specifications  
+## Technical Specifications  
 
-## Software
+### Software
 
-### Required Software for Development
+#### Required Software for Development
 - Platform IO
 
-### Dependencies for build
+#### Dependencies for build
 - zinggjm/GxEPD2@^1.6.2
 - Adafruit NeoMatrix
 - Adafruit NeoPixel
@@ -26,8 +26,8 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 - Adafruit BusIO
 - Wire
 
-## Hardware 
-### Parts List  
+### Hardware 
+#### Parts List  
 - x1 ESP32 develempent module
 - x3 Push button
 - x1 Red LED
@@ -39,6 +39,6 @@ The _E-ink Pomo_ device facilitates a digital minimalist philosophy by providing
 - Wires
 - Blank THT PCB
 
-### Circuit Diagram  (proto-rev1)
+#### Circuit Diagram  (proto-rev1)
 
 ![Circuit Diagram](https://github.com/patrickkosierb/eink_esp/blob/main/doc/eink-pomo_circuit-prototype.png)
